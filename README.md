@@ -1,6 +1,3 @@
-Tentu, berikut adalah `README.md` yang telah diterjemahkan ke dalam bahasa Indonesia dengan username `asepsupriatna90`:
-
-```markdown
 # Skrip Auto-Installer LAMP
 
 ## Deskripsi
@@ -35,7 +32,7 @@ Skrip ini secara cerdas mendeteksi sistem operasi dan menjalankan perintah yang 
 
 ## Penggunaan
 
-1. **Klon Repository**
+1. Klon Repository
    ```bash
    git clone https://github.com/asepsupriatna90/lamp-installer.git
    cd lamp-installer
