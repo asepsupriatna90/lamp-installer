@@ -1,94 +1,53 @@
 #!/bin/bash
 
-# Function to install LAMP on Ubuntu/Debian
-install_ubuntu() {
-    echo "Updating package list..."
-    sudo apt update -y
-
-    echo "Installing Apache..."
-    sudo apt install apache2 -y
-
-    echo "Installing MySQL..."
-    sudo apt install mysql-server -y
-
-    echo "Installing PHP..."
-    sudo apt install php libapache2-mod-php php-mysql -y
-
-    echo "Restarting Apache to apply changes..."
-    sudo systemctl restart apache2
-
-    echo "LAMP stack installed successfully on Ubuntu/Debian!"
-}
-
-# Function to install LAMP on CentOS/RHEL
-install_centos() {
-    echo "Updating package list..."
-    sudo yum update -y
-
-    echo "Installing Apache..."
-    sudo yum install httpd -y
-
-    echo "Installing MySQL (MariaDB)..."
-    sudo yum install mariadb-server mariadb -y
-
-    echo "Installing PHP..."
-    sudo yum install php php-mysql -y
-
-    echo "Starting Apache and MariaDB services..."
-    sudo systemctl start httpd
-    sudo systemctl start mariadb
-
-    echo "Enabling Apache and MariaDB to start on boot..."
-    sudo systemctl enable httpd
-    sudo systemctl enable mariadb
-
-    echo "LAMP stack installed successfully on CentOS/RHEL!"
-}
-
-# Function to install LAMP on Fedora
-install_fedora() {
-    echo "Updating package list..."
-    sudo dnf update -y
-
-    echo "Installing Apache..."
-    sudo dnf install httpd -y
-
-    echo "Installing MySQL (MariaDB)..."
-    sudo dnf install mariadb-server mariadb -y
-
-    echo "Installing PHP..."
-    sudo dnf install php php-mysqlnd -y
-
-    echo "Starting Apache and MariaDB services..."
-    sudo systemctl start httpd
-    sudo systemctl start mariadb
-
-    echo "Enabling Apache and MariaDB to start on boot..."
-    sudo systemctl enable httpd
-    sudo systemctl enable mariadb
-
-    echo "LAMP stack installed successfully on Fedora!"
-}
-
-# Detect the OS and call the respective function
-if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    case "$ID" in
-        ubuntu|debian)
-            install_ubuntu
-            ;;
-        centos|rhel)
-            install_centos
-            ;;
-        fedora)
-            install_fedora
-            ;;
-        *)
-            echo "Unsupported Linux distribution."
-            exit 1
-            ;;
-    esac
-else
-    echo "Cannot detect the OS."
-    exit 1
+# Check if the script is run as root
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root"
+  exit
 fi
+
+# Detect OS
+if [ -f /etc/os-release ]; then
+  . /etc/os-release
+  OS=$ID
+  VERSION=$VERSION_ID
+else
+  echo "OS not supported"
+  exit 1
+fi
+
+# Install LAMP stack based on the OS
+install_lamp() {
+  case $OS in
+    almalinux|rocky|centos)
+      yum update -y
+      yum install -y httpd mariadb-server mariadb php php-mysqlnd
+      systemctl start httpd
+      systemctl enable httpd
+      systemctl start mariadb
+      systemctl enable mariadb
+      mysql_secure_installation
+      ;;
+    ubuntu|debian)
+      apt update
+      apt install -y apache2 mariadb-server php php-mysql
+      systemctl start apache2
+      systemctl enable apache2
+      systemctl start mariadb
+      systemctl enable mariadb
+      mysql_secure_installation
+      ;;
+    *)
+      echo "OS not supported"
+      exit 1
+      ;;
+  esac
+}
+
+install_lamp
+
+# Display installation details
+echo "LAMP installation completed."
+echo "Apache version: $(apache2 -v | grep 'Server version' | awk '{print $3}')"
+echo "MariaDB version: $(mysql --version)"
+echo "PHP version: $(php -v | head -n 1)"
