@@ -1,94 +1,53 @@
-#!/bin/bash
+Tentu! Berikut adalah contoh `README.md` untuk repository GitHub yang berisi skrip auto-instalasi LAMP:
 
-# Function to install LAMP on Ubuntu/Debian
-install_ubuntu() {
-    echo "Updating package list..."
-    sudo apt update -y
+```markdown
+# LAMP Auto-Installer Script
 
-    echo "Installing Apache..."
-    sudo apt install apache2 -y
+## Description
+This repository contains a simple and efficient Bash script to automate the installation of the LAMP stack (Linux, Apache, MySQL, PHP) on various Linux distributions, including Ubuntu/Debian, CentOS/RHEL, and Fedora. This script simplifies the process of setting up a web server environment by automatically detecting the operating system and using the appropriate package manager to install and configure LAMP.
 
-    echo "Installing MySQL..."
-    sudo apt install mysql-server -y
+## Features
+- **Automatic OS Detection**: The script identifies the Linux distribution and executes the appropriate commands.
+- **Comprehensive Installation**: Installs Apache, MySQL (MariaDB on CentOS/Fedora), and PHP.
+- **Service Management**: Ensures that Apache and MySQL services are started and enabled to start on boot.
+- **Easy to Use**: Simple execution with a single command.
 
-    echo "Installing PHP..."
-    sudo apt install php libapache2-mod-php php-mysql -y
+## Supported Distributions
+- Ubuntu
+- Debian
+- CentOS
+- RHEL
+- Fedora
 
-    echo "Restarting Apache to apply changes..."
-    sudo systemctl restart apache2
+## Usage
 
-    echo "LAMP stack installed successfully on Ubuntu/Debian!"
-}
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/your-username/lamp-installer.git
+   cd lamp-installer
+   ```
 
-# Function to install LAMP on CentOS/RHEL
-install_centos() {
-    echo "Updating package list..."
-    sudo yum update -y
+2. **Download the Script**
+   Alternatively, you can download the script directly:
+   ```bash
+   wget https://raw.githubusercontent.com/your-username/lamp-installer/main/install_lamp.sh
+   ```
 
-    echo "Installing Apache..."
-    sudo yum install httpd -y
+3. **Make the Script Executable**
+   ```bash
+   chmod +x install_lamp.sh
+   ```
 
-    echo "Installing MySQL (MariaDB)..."
-    sudo yum install mariadb-server mariadb -y
+4. **Run the Script**
+   ```bash
+   sudo ./install_lamp.sh
+   ```
 
-    echo "Installing PHP..."
-    sudo yum install php php-mysql -y
+## Contributions
+Contributions are welcome! If you have any suggestions or improvements, please feel free to open an issue or submit a pull request.
 
-    echo "Starting Apache and MariaDB services..."
-    sudo systemctl start httpd
-    sudo systemctl start mariadb
+## License
+This project is licensed under the MIT License.
+```
 
-    echo "Enabling Apache and MariaDB to start on boot..."
-    sudo systemctl enable httpd
-    sudo systemctl enable mariadb
-
-    echo "LAMP stack installed successfully on CentOS/RHEL!"
-}
-
-# Function to install LAMP on Fedora
-install_fedora() {
-    echo "Updating package list..."
-    sudo dnf update -y
-
-    echo "Installing Apache..."
-    sudo dnf install httpd -y
-
-    echo "Installing MySQL (MariaDB)..."
-    sudo dnf install mariadb-server mariadb -y
-
-    echo "Installing PHP..."
-    sudo dnf install php php-mysqlnd -y
-
-    echo "Starting Apache and MariaDB services..."
-    sudo systemctl start httpd
-    sudo systemctl start mariadb
-
-    echo "Enabling Apache and MariaDB to start on boot..."
-    sudo systemctl enable httpd
-    sudo systemctl enable mariadb
-
-    echo "LAMP stack installed successfully on Fedora!"
-}
-
-# Detect the OS and call the respective function
-if [ -f /etc/os-release ]; then
-    . /etc/os-release
-    case "$ID" in
-        ubuntu|debian)
-            install_ubuntu
-            ;;
-        centos|rhel)
-            install_centos
-            ;;
-        fedora)
-            install_fedora
-            ;;
-        *)
-            echo "Unsupported Linux distribution."
-            exit 1
-            ;;
-    esac
-else
-    echo "Cannot detect the OS."
-    exit 1
-fi
+Gantilah `your-username` dengan nama pengguna GitHub Anda. README ini mencakup deskripsi proyek, fitur, distribusi yang didukung, instruksi penggunaan, informasi kontribusi, dan lisensi. Anda dapat menyesuaikannya lebih lanjut sesuai dengan kebutuhan Anda.
