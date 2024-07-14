@@ -1,84 +1,65 @@
-# Skrip Auto-Installer LAMP
+# LAMP Auto Install Script
 
-## Deskripsi
-Repository ini berisi skrip Bash yang kuat dan efisien yang dirancang untuk mengotomatisasi instalasi stack LAMP (Linux, Apache, MySQL, PHP) pada berbagai distribusi Linux. Skrip ini bertujuan untuk menyederhanakan proses pengaturan lingkungan server web, membuatnya dapat diakses oleh pemula dan administrator sistem berpengalaman.
+This script automates the installation of the LAMP stack (Linux, Apache, MySQL/MariaDB, PHP) on various Linux distributions, including AlmaLinux, RockyLinux, CentOS, Debian, and Ubuntu (20.04, 22.04, 24.04).
 
-Skrip ini secara cerdas mendeteksi sistem operasi dan menjalankan perintah yang sesuai menggunakan manajer paket sistem. Skrip ini memastikan instalasi lengkap Apache, MySQL (atau MariaDB pada CentOS dan Fedora), dan PHP, bersama dengan konfigurasi yang diperlukan untuk membuat server web Anda berjalan dengan lancar.
+## Supported Operating Systems
 
-## Fitur
-- **Deteksi OS Otomatis**: Skrip secara otomatis mendeteksi distribusi Linux Anda dan menyesuaikan proses instalasi sesuai.
-- **Instalasi Komprehensif**: 
-  - Menginstal Apache, perangkat lunak server web yang paling banyak digunakan di dunia.
-  - Menginstal MySQL atau MariaDB, sistem manajemen basis data yang kuat.
-  - Menginstal PHP, bahasa scripting sisi server yang populer.
-- **Manajemen Layanan**: 
-  - Memulai layanan Apache dan MySQL.
-  - Mengaktifkan layanan ini untuk memulai secara otomatis saat boot sistem.
-- **Mudah Digunakan**: 
-  - Membutuhkan input pengguna yang minimal.
-  - Pesan yang jelas dan informatif sepanjang proses instalasi.
-- **Dukungan Multi-Distribusi**: Mendukung distribusi Linux utama termasuk Ubuntu, Debian, CentOS, RHEL, dan Fedora.
+- AlmaLinux
+- RockyLinux
+- CentOS
+- Debian
+- Ubuntu (20.04, 22.04, 24.04)
 
-## Distribusi yang Didukung
-- **Ubuntu**: Distribusi yang populer dan ramah pengguna berdasarkan Debian.
-- **Debian**: Dikenal karena stabilitas dan keandalannya.
-- **CentOS**: Alternatif gratis dan sumber terbuka untuk RHEL, banyak digunakan di lingkungan perusahaan.
-- **RHEL (Red Hat Enterprise Linux)**: Platform Linux perusahaan terkemuka.
-- **Fedora**: Distribusi mutakhir yang berfungsi sebagai tempat pengujian untuk RHEL.
+## Usage
 
-## Prasyarat
-- Sistem operasi berbasis Linux (Ubuntu, Debian, CentOS, RHEL, atau Fedora).
-- Hak akses root atau sudo.
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/asepsupriatna90/lamp-auto-install.git
+    cd lamp-auto-install
+    ```
 
-## Penggunaan
+2. Make the script executable:
+    ```bash
+    chmod +x install_lamp.sh
+    ```
 
-1. Klon Repository
-   ```bash
-   git clone https://github.com/asepsupriatna90/lamp-installer.git
-   cd lamp-installer
-   ```
+3. Run the script as root:
+    ```bash
+    sudo ./install_lamp.sh
+    ```
 
-2. **Unduh Skrip**
-   Sebagai alternatif, Anda dapat mengunduh skrip secara langsung:
-   ```bash
-   wget https://raw.githubusercontent.com/asepsupriatna90/lamp-installer/main/install_lamp.sh
-   ```
+## What the Script Does
 
-3. **Buat Skrip Dapat Dieksekusi**
-   ```bash
-   chmod +x install_lamp.sh
-   ```
+- Updates the package list and upgrades existing packages.
+- Installs Apache, MariaDB, and PHP.
+- Starts and enables Apache and MariaDB to run on boot.
+- Runs `mysql_secure_installation` to secure the MariaDB installation.
 
-4. **Jalankan Skrip**
-   ```bash
-   sudo ./install_lamp.sh
-   ```
+## Post-Installation
 
-Skrip ini akan memandu Anda melalui proses instalasi dengan prompt dan pesan yang jelas. Duduklah dan biarkan skrip menangani proses instalasi untuk Anda.
+- Apache server will be running on port 80.
+- MariaDB server will be running and secured.
+- PHP will be installed and configured to work with Apache.
 
-## Pemecahan Masalah
-Jika Anda mengalami masalah selama instalasi, periksa hal-hal berikut:
-- Pastikan Anda memiliki koneksi internet aktif untuk mengunduh paket.
-- Verifikasi bahwa Anda memiliki ruang disk yang cukup.
-- Periksa keluaran skrip untuk pesan kesalahan spesifik dan atasi sesuai dengan pesan tersebut.
+## Verifying the Installation
 
-Jika masalah berlanjut, jangan ragu untuk membuka issue di repository ini untuk bantuan lebih lanjut.
+To verify that the installation was successful, you can check the versions of the installed components:
 
-## Kontribusi
-Kontribusi sangat diterima dan didorong! Jika Anda memiliki saran, perbaikan, atau penambahan, silakan lakukan hal berikut:
-1. Fork repository ini.
-2. Buat branch baru (`git checkout -b feature-branch`).
-3. Lakukan perubahan Anda.
-4. Commit perubahan Anda (`git commit -m 'Tambah fitur tertentu'`).
-5. Push ke branch (`git push origin feature-branch`).
-6. Buka pull request.
+- Apache:
+    ```bash
+    apache2 -v
+    ```
 
-Kontribusi Anda akan membantu membuat proyek ini lebih baik untuk semua orang.
+- MariaDB:
+    ```bash
+    mysql --version
+    ```
 
-## Lisensi
-Proyek ini dilisensikan di bawah Lisensi MIT. Anda bebas menggunakan, memodifikasi, dan mendistribusikan perangkat lunak ini sesuai dengan ketentuan lisensi.
+- PHP:
+    ```bash
+    php -v
+    ```
 
----
+## License
 
-Dengan menyediakan proses otomatis yang terstreamlining untuk menyiapkan stack LAMP, skrip ini bertujuan untuk menghemat waktu Anda dan mengurangi kerumitan dalam mengkonfigurasi lingkungan server web. Apakah Anda sedang mengatur lingkungan pengembangan, server pengujian, atau server produksi, skrip ini siap membantu Anda.
-```
+This project is licensed under the MIT License.
